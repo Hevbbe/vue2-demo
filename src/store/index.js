@@ -1,23 +1,21 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import user from './modules/user'
+import Vue from "vue";
+import Vuex from "vuex";
+import user from "./modules/user";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    GlobalContent: '全局内容，任意位置都可进行修改',
+    GlobalContent: "全局内容，任意位置都可进行修改",
   },
-  getters: {
-  },
+  getters: {},
   mutations: {
     handleContent(state, content) {
-      state.GlobalContent = content
-    }
+      state.GlobalContent = content;
+    },
   },
-  actions: {
-  },
+  actions: {},
   modules: {
-    user
-  }
-})
+    user,
+  },
+});

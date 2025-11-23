@@ -1,8 +1,9 @@
 import request from "@/utils/request";
 
-export function getUserInfo() {
+export function getCarousel(data) {
   return request({
-    url: "/api/user/info",
+    url: "/api/carousel",
     method: "get",
+    data,
   });
 }

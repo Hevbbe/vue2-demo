@@ -1,18 +1,30 @@
 <template>
   <div class="profile">
     <h2>个人资料</h2>
-    <p>用户名：Vue 学习者</p>
-    <p>邮箱：vue@demo.com</p>
+    <p>用户名: {{ userInfo.name }}</p>
+    <p>年龄: {{ userInfo.age }}</p>
+    <p>邮箱: {{ userInfo.email }}</p>
   </div>
 </template>
 
 <script>
+import { getUserInfo } from "@/api/user";
 export default {
-  name: 'Profile',
+  name: "Profile",
   data() {
     return {
-      list: []
-    }
-  }
-}
+      userInfo: {},
+    };
+  },
+  methods: {
+    init() {
+      getUserInfo().then((res) => {
+        this.userInfo = res.data;
+      });
+    },
+  },
+  mounted() {
+    this.init();
+  },
+};
 </script>
