@@ -5,6 +5,11 @@ import store from './store';
 
 Vue.config.productionTip = false
 
+// 仅开发环境启用 mock
+if (process.env.NODE_ENV === 'development') {
+  require('./mock')
+}
+
 new Vue({
   store,
   router,
