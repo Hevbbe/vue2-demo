@@ -4,15 +4,12 @@
     <p>欢迎回来，{{ username }}！</p>
     <button @click="handleLogout" class="logout-btn">退出登录</button>
     <div class="carousel">
-      <el-carousel class="bg-orange" trigger="click" height="150px">
-        <el-carousel-item
-          height="150px"
-          v-for="item in list.list"
-          :key="item.id"
-        >
+      <el-carousel trigger="click">
+        <el-carousel-item v-for="item in list.list" :key="item.id">
           <h3 class="medium">{{ item.desc }}</h3>
         </el-carousel-item>
       </el-carousel>
+      <CommonOption v-model="carouselCount" @input="handleSelectChange" />
     </div>
     <div class="nav">
       <div
@@ -41,23 +38,26 @@ import About from "./about.vue";
 import User from "./user.vue";
 import { removeToken, getToken } from "../utils";
 import { getCarousel } from "../api/list";
+import CommonOption from "@/components/common-option/index.vue";
 
 export default {
   name: "Dashboard",
   components: {
     About,
     User,
+    CommonOption,
   },
   data() {
     return {
       username: "admin",
       activeComponent: "About",
       list: [],
+      carouselCount: 5,
     };
   },
   methods: {
     init() {
-      getCarousel({ count: 3 }).then((res) => {
+      getCarousel({ count: this.carouselCount }).then((res) => {
         console.log(res);
         this.list = res;
       });
@@ -67,6 +67,10 @@ export default {
         removeToken("token");
         this.$router.push("/login");
       }
+    },
+    handleSelectChange(val) {
+      this.carouselCount = val;
+      this.init();
     },
   },
   created() {
@@ -132,5 +136,20 @@ export default {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+.el-carousel__item h3 {
+  color: #475669;
+  opacity: 0.75;
+  line-height: 300px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
 }
 </style>

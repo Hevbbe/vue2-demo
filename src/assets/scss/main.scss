@@ -7,7 +7,7 @@
   基础参数-初始化(必须)
  ==================== */
 
-page {
+:root {
   /* Color 可以自定义相关配色 */
   /* var属性兼容性 --> https://www.caniuse.com/#feat=css-variables */
   /* 标准色 */
@@ -75,7 +75,6 @@ page {
   --grayShadow: rgba(114, 130, 138, 0.2);
   --blackShadow: rgba(26, 26, 26, 0.2);
 
-  font-size: 28px;
   color: var(--black);
   font-family: Helvetica Neue, Helvetica, sans-serif;
 
@@ -3138,10 +3137,6 @@ image {
 
 .text-center {
   text-align: center;
-}
-
-.text-content {
-  line-height: 1.6;
 }
 
 .text-left {
