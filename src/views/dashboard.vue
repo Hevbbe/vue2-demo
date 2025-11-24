@@ -1,6 +1,5 @@
 <template>
-  <el-container>
-    <el-aside width="200px">Aside</el-aside>
+  <div class="dashboard">
     <el-container>
       <el-header>
         <div class="flex align-center justify-between">
@@ -13,37 +12,42 @@
           </div>
         </div>
       </el-header>
-      <el-main>
-        <div class="carousel">
-          <CommonOption v-model="carouselCount" @input="handleSelectChange" />
-          <el-carousel trigger="click">
-            <el-carousel-item v-for="item in list.list" :key="item.id">
-              <h3 class="medium">{{ item.desc }}</h3>
-            </el-carousel-item>
-          </el-carousel>
-        </div>
-        <div class="nav">
-          <div
-            class="n-item"
-            :class="{ 'a-item': activeComponent === 'About' }"
-            @click="activeComponent = 'About'"
-          >
-            前往关于我们
-          </div>
-          <div
-            class="n-item"
-            :class="{ 'a-item': activeComponent === 'User' }"
-            @click="activeComponent = 'User'"
-          >
-            查看用户中心
-          </div>
-        </div>
-        <Transition name="fade" mode="out-in">
-          <component :is="activeComponent" key="activeComponent"></component>
-        </Transition>
-      </el-main>
+      <el-container>
+        <el-aside width="200px" class="bg-grey">Aside</el-aside>
+        <el-container>
+          <el-main>
+            <CommonOption v-model="carouselCount" @input="handleSelectChange" />
+            <el-carousel trigger="click">
+              <el-carousel-item v-for="item in list.list" :key="item.id">
+                <h3 class="medium">{{ item.desc }}</h3>
+              </el-carousel-item>
+            </el-carousel>
+          </el-main>
+          <el-footer height="auto">
+            <div class="nav">
+              <div
+                class="n-item"
+                :class="{ 'a-item': activeComponent === 'About' }"
+                @click="activeComponent = 'About'"
+              >
+                前往关于我们
+              </div>
+              <div
+                class="n-item"
+                :class="{ 'a-item': activeComponent === 'User' }"
+                @click="activeComponent = 'User'"
+              >
+                查看用户中心
+              </div>
+            </div>
+            <Transition name="fade" mode="out-in">
+              <component :is="activeComponent" key="activeComponent" />
+            </Transition>
+          </el-footer>
+        </el-container>
+      </el-container>
     </el-container>
-  </el-container>
+  </div>
 </template>
 
 <script>
@@ -123,16 +127,6 @@ export default {
   color: white;
   border: 2px solid black;
   background-color: black;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
 }
 
 .el-carousel__item h3 {
