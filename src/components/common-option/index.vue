@@ -11,12 +11,36 @@
 </template>
 
 <script>
-import { carousel } from "./index";
 export default {
   props: {
     value: {
       type: Number,
       default: 1,
+    },
+    list: {
+      type: Array,
+      default: () => [
+        {
+          value: 1,
+          label: "生成1个",
+        },
+        {
+          value: 2,
+          label: "生成2个",
+        },
+        {
+          value: 3,
+          label: "生成3个",
+        },
+        {
+          value: 4,
+          label: "生成4个",
+        },
+        {
+          value: 5,
+          label: "生成5个",
+        },
+      ],
     },
   },
   data() {
@@ -30,11 +54,6 @@ export default {
     },
     localValue(n) {
       this.$emit("input", n);
-    },
-  },
-  computed: {
-    list() {
-      return carousel;
     },
   },
 };

@@ -20,7 +20,9 @@
           required
         />
       </div>
-      <button type="submit" class="login-btn">登录</button>
+      <button type="submit" :disabled="isLoading" class="login-btn">
+        登录
+      </button>
       <p class="error-message" v-if="errorMsg">{{ errorMsg }}</p>
     </form>
   </div>
@@ -37,27 +39,37 @@ export default {
       username: "",
       password: "",
       errorMsg: "",
+      isLoading: false,
     };
   },
   methods: {
-    handleLogin() {
-      if (this.username === "admin" && this.password === "123456") {
+    async handleLogin() {
+      this.isLoading = true;
+
+      try {
         const params = {
           username: this.username,
           password: this.password,
         };
-        login(params).then((res) => {
-          const token = res.data.token;
 
-          store.dispatch("user/saveUser", res.data);
-          setToken("token", token);
-          this.$router.push("/dashboard");
-        });
-      } else {
-        this.errorMsg = "用户名或密码错误（正确：admin/123456）";
-        setTimeout(() => {
-          this.errorMsg = "";
-        }, 3000);
+        const res = await login(params);
+
+        if (res.code !== 200) {
+          this.errorMsg = res.message || "登录失败";
+          setTimeout(() => (this.errorMsg = ""), 3000);
+          return;
+        }
+
+        const token = res.data.token;
+        setToken(token);
+        store.dispatch("saveToken", token);
+
+        this.$router.replace("/dashboard");
+      } catch (err) {
+        console.error("登录失败：", err);
+        this.errorMsg = "服务器错误，请稍后重试";
+      } finally {
+        this.isLoading = false;
       }
     },
   },
@@ -98,6 +110,10 @@ input {
   border-radius: 4px;
   cursor: pointer;
   transition: background 0.3s;
+}
+
+.login-btn:disabled {
+  background-color: #737675;
 }
 
 .login-btn:hover {

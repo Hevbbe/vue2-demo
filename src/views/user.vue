@@ -7,25 +7,21 @@
       <button @click="handleContent">修改全局内容</button>
     </div>
     <router-view></router-view>
-    <router-link :to="{ name: 'profile' }"> 查看个人资料 </router-link>
+    <router-link :to="{ name: 'profile' }">查看个人资料</router-link>
   </div>
 </template>
 
 <script>
-import { getGlobalContent, setGlobalContent } from "../utils/store";
 export default {
   name: "User",
-  data() {
-    return {};
-  },
   computed: {
     content() {
-      return getGlobalContent();
+      return this.$store.state.GlobalContent;
     },
   },
   methods: {
     handleContent() {
-      setGlobalContent("新修改的内容");
+      this.$store.commit("handleContent", this.content);
     },
   },
 };

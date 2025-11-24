@@ -1,36 +1,49 @@
 <template>
-  <div class="dashboard">
-    <h1>系统首页</h1>
-    <p>欢迎回来，{{ username }}！</p>
-    <button @click="handleLogout" class="logout-btn">退出登录</button>
-    <div class="carousel">
-      <el-carousel trigger="click">
-        <el-carousel-item v-for="item in list.list" :key="item.id">
-          <h3 class="medium">{{ item.desc }}</h3>
-        </el-carousel-item>
-      </el-carousel>
-      <CommonOption v-model="carouselCount" @input="handleSelectChange" />
-    </div>
-    <div class="nav">
-      <div
-        class="n-item"
-        :class="{ 'a-item': activeComponent === 'About' }"
-        @click="activeComponent = 'About'"
-      >
-        前往关于我们
-      </div>
-      <div
-        class="n-item"
-        :class="{ 'a-item': activeComponent === 'User' }"
-        @click="activeComponent = 'User'"
-      >
-        查看用户中心
-      </div>
-    </div>
-    <Transition name="fade" mode="out-in">
-      <component :is="activeComponent" key="activeComponent"></component>
-    </Transition>
-  </div>
+  <el-container>
+    <el-aside width="200px">Aside</el-aside>
+    <el-container>
+      <el-header>
+        <div class="flex align-center justify-between">
+          <h1>系统首页</h1>
+          <div class="flex align-center">
+            <p>欢迎回来，{{ username }}！</p>
+            <el-button type="danger" size="small" @click="handleLogout">
+              退出登录
+            </el-button>
+          </div>
+        </div>
+      </el-header>
+      <el-main>
+        <div class="carousel">
+          <CommonOption v-model="carouselCount" @input="handleSelectChange" />
+          <el-carousel trigger="click">
+            <el-carousel-item v-for="item in list.list" :key="item.id">
+              <h3 class="medium">{{ item.desc }}</h3>
+            </el-carousel-item>
+          </el-carousel>
+        </div>
+        <div class="nav">
+          <div
+            class="n-item"
+            :class="{ 'a-item': activeComponent === 'About' }"
+            @click="activeComponent = 'About'"
+          >
+            前往关于我们
+          </div>
+          <div
+            class="n-item"
+            :class="{ 'a-item': activeComponent === 'User' }"
+            @click="activeComponent = 'User'"
+          >
+            查看用户中心
+          </div>
+        </div>
+        <Transition name="fade" mode="out-in">
+          <component :is="activeComponent" key="activeComponent"></component>
+        </Transition>
+      </el-main>
+    </el-container>
+  </el-container>
 </template>
 
 <script>
@@ -58,7 +71,6 @@ export default {
   methods: {
     init() {
       getCarousel({ count: this.carouselCount }).then((res) => {
-        console.log(res);
         this.list = res;
       });
     },
@@ -87,22 +99,7 @@ export default {
 <style scoped>
 .dashboard {
   width: 80%;
-  margin: 50px auto;
-  text-align: center;
-}
-
-.logout-btn {
-  padding: 8px 16px;
-  background: #f44336;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-bottom: 20px;
-}
-
-.logout-btn:hover {
-  background: #d32f2f;
+  margin: 0 auto;
 }
 
 .nav {

@@ -1,14 +1,14 @@
 import axios from "axios";
-import store from "@/store";
+import { getToken } from "@/utils";
 
 const service = axios.create({
   baseURL: "",
   timeout: 5000,
 });
 
-// 请求拦截器：自动携带 token
+// 请求拦截器：自动携带token
 service.interceptors.request.use((config) => {
-  const token = store.state.user.token;
+  const token = getToken();
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;
   }
@@ -19,10 +19,8 @@ service.interceptors.request.use((config) => {
 service.interceptors.response.use(
   (res) => {
     const data = res.data;
-    // token 过期
     if (data.code === 401) {
       alert("登录过期，请重新登录");
-      store.commit("user/CLEAR_USER");
       return Promise.reject(data);
     }
     return data;
